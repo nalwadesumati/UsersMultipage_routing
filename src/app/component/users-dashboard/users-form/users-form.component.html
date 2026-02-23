@@ -1,0 +1,174 @@
+<div class="card">
+    <div class="card-body">
+        <h2>Add Users</h2>
+        <form [formGroup]="userForm" (ngSubmit)="onuUserAdd()">
+            <div class="form-group">
+                <label for="userName">UserName</label>
+                <input type="text" class="form-control" formControlName="userName">
+                <strong *ngIf="f['userName'].touched && f['userName'].errors?.['required']" class="text-danger">UserName
+                    is a required fild</strong>
+            </div>
+
+            <div class="form-group">
+                <label for="userId">userId</label>
+                <input type="text" class="form-control" formControlName="userId">
+                <strong *ngIf="f['userId'].touched && f['userId'].errors?.['required']" class="text-danger">userId
+                    is a required fild</strong>
+            </div>
+
+            <div class="form-group">
+                <label for="userId">userRole</label>
+                <select type="text" class="form-control" formControlName="userRole">
+                    <option value="Candidate">Candidate</option>
+                    <option value="Admin">Admin</option>
+
+                </select>
+
+                <strong *ngIf="f['userRole'].touched && f['userRole'].errors?.['required']" class="text-danger">UserId
+                    is a required fild</strong>
+            </div>
+
+
+
+            <div class="form-group">
+                <label for="profileDescription">profileDescription</label>
+                <textarea rows="4" type="text" class="form-control" formControlName="profileDescription"></textarea>
+                <strong *ngIf="f['profileDescription'].touched && f['profileDescription'].errors?.['required']"
+                    class="text-danger">ProfileDescription
+                    is a required fild</strong>
+            </div>
+
+            <div class="form-group">
+                <label for="profileImage">profileImage</label>
+                <input (change)="onProfileUpdate($event)" type="file" class="form-control"
+                    formControlName="profileImage">
+                <strong *ngIf="f['profileImage'].touched && f['profileImage'].errors?.['required']"
+                    class="text-danger">ProfileImage
+                    is a required fild</strong>
+            </div>
+
+            <div class="form-group">
+                <label for="experienceYears">ExperienceYears</label>
+                <select type="text" class="form-control" formControlName="experienceYears">
+                    <option value="1 to 3">1 to 3 Years</option>
+                    <option value="3 to 5">3 to 5 Years</option>
+                    <option value="5 to 7">5 to 7 Years</option>
+                    <option value="7 to 10">7 to 10 Years</option>
+                    <option value="10+ Years">10+ Years</option>
+
+                </select>
+
+                <strong *ngIf="f['experienceYears'].touched && f['experienceYears'].errors?.['required']"
+                    class="text-danger">experienceYears
+                    is a required fild</strong>
+            </div>
+
+            <div class="form-group">
+                <label for="isActive">IsActive</label>
+                <select class="form-control" formControlName="isActive">
+                    <option [ngValue]="true">true</option>
+                    <option [ngValue]="false">false</option>
+                </select>
+            </div>
+
+
+
+
+            <div class="row" formGroupName="address">
+
+
+                <div class="col-md-6" formGroupName="current">
+                    <h4>Current Address</h4>
+
+                    <div class="form-group mb-2">
+                        <label>Country*</label>
+                        <select formControlName="country" class="form-control">
+                            <option value="">Select Country</option>
+                            <option *ngFor="let countryObj of countryArr" [value]="countryObj.Country">
+                                {{ countryObj.Country }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label>State*</label>
+                        <input type="text" class="form-control" formControlName="state">
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label>City*</label>
+                        <input type="text" class="form-control" formControlName="city">
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label>Zipcode*</label>
+                        <input type="text" class="form-control" formControlName="zipcode">
+                    </div>
+                </div>
+
+
+                <div class="col-md-6" formGroupName="permanent">
+                    <h4>Permanent Address</h4>
+
+                    <div class="form-group mb-2">
+                        <label>Country*</label>
+                        <select formControlName="country" class="form-control">
+                            <option value="">Select Country</option>
+                            <option *ngFor="let countryObj of countryArr" [value]="countryObj.Country">
+                                {{ countryObj.Country }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label>State*</label>
+                        <input type="text" class="form-control" formControlName="state">
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label>City*</label>
+                        <input type="text" class="form-control" formControlName="city">
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label>Zipcode*</label>
+                        <input type="text" class="form-control" formControlName="zipcode">
+                    </div>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label for="isAddSame">
+                        <input type="checkbox" id="isAddSame" formControlName="isAddSame">
+                        Is Address Same
+                    </label>
+                </div>
+
+            </div>
+
+
+            <div formArrayName="skills">
+                <h4>Skills</h4>
+                <div *ngFor="let skill of skillsArr.controls; let i = index" class="row">
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <input [formArrayName]="i" class="form-control" type="text">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2" *ngIf="i > 0">
+                        <button type="button" (click)="onSkillRemove(i)" mat-mini-fab color="warn">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+            <button (click)="addSkill()" mat-raised-button color="primary" type="button" class=" btn-sm mb-3">Add
+                Skill</button>
+
+
+
+            <button class="btn btn-primary w-100">Add User</button>
+        </form>
+    </div>
+</div>
