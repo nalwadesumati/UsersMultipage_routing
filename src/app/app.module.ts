@@ -21,6 +21,7 @@ import { PageNotFoundComponent } from './component/page-not-found/page-not-found
 import { UsersFormComponent } from './component/users-dashboard/users-form/users-form.component';
 import { UsersDetailsComponent } from './component/users-dashboard/users-details/users-details.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
   ],
   imports: [
     BrowserModule,
+    MatButtonModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
@@ -47,6 +49,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ReactiveFormsModule,
     MatTableModule,
     MatSnackBarModule,
+    MatButtonModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
