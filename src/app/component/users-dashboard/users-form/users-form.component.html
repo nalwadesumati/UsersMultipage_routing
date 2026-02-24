@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-body">
-        <h2>Add Users</h2>
-        <form [formGroup]="userForm" (ngSubmit)="onuUserAdd()">
+        <h2>{{isInEditMode ? 'Update User':'Add User'}}</h2>
+        <form [formGroup]="userForm" (ngSubmit)="onUserAdd()">
             <div class="form-group">
                 <label for="userName">UserName</label>
                 <input type="text" class="form-control" formControlName="userName">
@@ -9,15 +9,15 @@
                     is a required fild</strong>
             </div>
 
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="userId">userId</label>
                 <input type="text" class="form-control" formControlName="userId">
                 <strong *ngIf="f['userId'].touched && f['userId'].errors?.['required']" class="text-danger">userId
                     is a required fild</strong>
-            </div>
+            </div> -->
 
             <div class="form-group">
-                <label for="userId">userRole</label>
+                <label for="userId">UserRole</label>
                 <select type="text" class="form-control" formControlName="userRole">
                     <option value="Candidate">Candidate</option>
                     <option value="Admin">Admin</option>
@@ -39,23 +39,18 @@
             </div>
 
             <div class="form-group">
-                <label for="profileImage">profileImage</label>
-                <input (change)="onProfileUpdate($event)" type="file" class="form-control"
-                    formControlName="profileImage">
-                <strong *ngIf="f['profileImage'].touched && f['profileImage'].errors?.['required']"
-                    class="text-danger">ProfileImage
-                    is a required fild</strong>
+                <label for="profileImage">Profile Image URL</label>
+                <input type="text" class="form-control" formControlName="profileImage" placeholder="Enter image URL">
+
+
             </div>
 
             <div class="form-group">
                 <label for="experienceYears">ExperienceYears</label>
                 <select type="text" class="form-control" formControlName="experienceYears">
-                    <option value="1 to 3">1 to 3 Years</option>
-                    <option value="3 to 5">3 to 5 Years</option>
-                    <option value="5 to 7">5 to 7 Years</option>
-                    <option value="7 to 10">7 to 10 Years</option>
-                    <option value="10+ Years">10+ Years</option>
-
+                    <option *ngFor="let exp of experienceOptions" [value]="exp">
+                        {{ exp }}
+                    </option>
                 </select>
 
                 <strong *ngIf="f['experienceYears'].touched && f['experienceYears'].errors?.['required']"
@@ -148,10 +143,11 @@
 
             <div formArrayName="skills">
                 <h4>Skills</h4>
+
                 <div *ngFor="let skill of skillsArr.controls; let i = index" class="row">
                     <div class="col-md-10">
                         <div class="form-group">
-                            <input [formArrayName]="i" class="form-control" type="text">
+                            <input [formControlName]="i" class="form-control" type="text">
                         </div>
                     </div>
 
@@ -160,7 +156,6 @@
                             <mat-icon>delete</mat-icon>
                         </button>
                     </div>
-
                 </div>
             </div>
             <button (click)="addSkill()" mat-raised-button color="accent" type="button" class=" mb-3">Add
@@ -168,7 +163,12 @@
 
 
             <br>
-            <button mat-raised-button color="primary" class="btn btn-sm w-100">Add User</button>
+            <button type="submit" *ngIf="!isInEditMode" mat-raised-button color="primary" class="w-100">
+                Add User
+            </button>
+            <button (click)="onUpdateUser()" *ngIf="isInEditMode" mat-raised-button color="accent" class="w-100"
+                type="button">Update
+                User</button>
         </form>
     </div>
 </div>

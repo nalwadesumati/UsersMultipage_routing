@@ -1,18 +1,38 @@
 <div class="row">
-    <div class="col-12 text-right mb-4">
-        <button mat-raised-button color="primary" routerLink="adduser">Add User</button>
-    </div>
-</div>
 
-<div class="row">
     <div class="col-md-4">
-        <ul clas="list-group">
-            <li class="list-group-item" *ngFor="let users of usersArr" role="button"
-                [routerLink]="['/users', users.userId]">
-                {{users.userName}}{{users.userId}} {{users.isActive}}
+        <button mat-raised-button color="primary" routerLink="adduser" class="mb-4">
+            Add User
+        </button>
 
-            </li>
-        </ul>
+        <ng-container *ngIf="usersArr.length > 0; else noUsers">
+
+            <ul class="list-group">
+                <li class="list-group-item" *ngFor="let users of usersArr" role="button"
+                    [routerLink]="['/users', users.userId]">
+
+                    {{ users.userName }} - {{ users.userId }}
+
+                    <span class="badge float-right" [ngClass]="{
+                            'badge-success': users.isActive,
+                            'badge-danger': !users.isActive
+                          }">
+                        {{ users.isActive ? 'Active' : 'Inactive' }}
+                    </span>
+
+                </li>
+            </ul>
+
+        </ng-container>
+
+        <ng-template #noUsers>
+            <div class="text-center mt-4">
+                <h5 class="text-muted">No Users Found</h5>
+            </div>
+        </ng-template>
+
     </div>
+
     <div class="col-md-8"></div>
+
 </div>

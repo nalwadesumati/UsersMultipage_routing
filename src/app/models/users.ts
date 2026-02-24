@@ -5,9 +5,10 @@ export interface Iusers {
   profileDescription: string;
   profileImage: string;
   skills: string[];
-  experienceYears: number;
+  experienceYears: string;
   isActive: boolean;
   address: Iaddress;
+  isAddSame: boolean;
 }
 export type TuserRole = 'Candidate' | 'Admin' | 'Manager' | 'HR';
 

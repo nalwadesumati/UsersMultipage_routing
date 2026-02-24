@@ -22,7 +22,9 @@ import { UsersFormComponent } from './component/users-dashboard/users-form/users
 import { UsersDetailsComponent } from './component/users-dashboard/users-details/users-details.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
-
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,6 +52,9 @@ import { MatButtonModule } from '@angular/material/button';
     MatTableModule,
     MatSnackBarModule,
     MatButtonModule,
+    MatCardModule,
+    MatChipsModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

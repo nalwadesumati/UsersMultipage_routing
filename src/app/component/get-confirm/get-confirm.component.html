@@ -1,1 +1,10 @@
-<p>get-confirm works!</p>
+<p [innerHTML]="getMsg" *ngIf="getMsg; else noMsg"></p>
+
+<ng-template #noMsg>
+    <p>Are you sure , you want to remove this?</p>
+</ng-template>
+
+<div class="d-flex justify-content-between">
+    <button (click)="onClose(true)" mat-raised-button color="accent">Yes</button>
+    <button (click)="onClose(false)" mat-raised-button color="warn">No</button>
+</div>
