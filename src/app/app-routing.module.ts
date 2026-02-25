@@ -8,6 +8,8 @@ import { UsersDetailsComponent } from './component/users-dashboard/users-details
 import { ProductDashboardComponent } from './component/product-dashboard/product-dashboard.component';
 import { FairsDashboardComponent } from './component/fairs-dashboard/fairs-dashboard.component';
 import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
+import { ProductFormComponent } from './component/product-dashboard/product-form/product-form.component';
+import { ProductDetailsComponent } from './component/product-dashboard/product-details/product-details.component';
 
 // const routes: Routes = [
 //   { path: 'post-dashboard', component: PostDashboardComponent },
@@ -46,9 +48,22 @@ const appRoutes: Routes = [
     component: ProductDashboardComponent,
   },
   {
+    path: 'products/addProduct',
+    component: ProductFormComponent,
+  },
+  {
+    path: 'products/:pid',
+    component: ProductDetailsComponent,
+  },
+  {
+    path: 'products/:pid/edit',
+    component: ProductFormComponent,
+  },
+  {
     path: 'fairs',
     component: FairsDashboardComponent,
   },
+
   {
     path: '**',
     component: PageNotFoundComponent,

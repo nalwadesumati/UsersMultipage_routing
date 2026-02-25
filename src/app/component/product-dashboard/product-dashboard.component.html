@@ -1,1 +1,69 @@
-<p>product-dashboard works!</p>
+<div class="row">
+
+    <div class="col-md-12 text-right">
+        <button routerLink="addProduct" mat-raised-button color="accent">Add Product</button>
+    </div>
+
+
+    <div class="col-md-4 mt-4">
+
+        <ul class="list-group" *ngIf="productsArr.length > 0; else noProducts">
+
+            <li *ngFor="let p of productsArr" class="list-group-item" [routerLink]="['/products', p.pid]"
+                style="cursor: pointer;">
+
+                <div class="row align-items-center">
+
+
+                    <div class="col-3">
+                        <img [src]="p.imgUrl" [alt]="p.pname" class="img-fluid rounded"
+                            style="height:60px; object-fit:cover;" />
+                    </div>
+
+
+                    <div class="col-6">
+                        <h4 class="mb-1 text-dark">{{ p.pname }}</h4>
+
+                        <span *ngIf="p.canReturn;else noReturn" class="badge bg-info text-dark p-2">
+                            Return Available
+                        </span>
+                        <ng-template #noReturn>
+                            <small class="text-muted">
+                                Return Not Available
+                            </small>
+                        </ng-template>
+                    </div>
+
+
+                    <div class="col-3 text-end">
+                        <small class="badge" [ngClass]="{
+                'badge-success': p.pstatus === 'Available' || p.pstatus === 'Delivered',
+                'badge-danger': p.pstatus === 'Out of Stock',
+                'badge-warning': p.pstatus === 'Limited',
+                'badge-primary': p.pstatus === 'In-progress'
+              }">
+                            {{ p.pstatus }}
+                        </small>
+                    </div>
+
+                </div>
+
+            </li>
+
+        </ul>
+
+
+        <ng-template #noProducts>
+            <div class="alert alert-warning text-center">
+                No Products Available
+            </div>
+        </ng-template>
+
+    </div>
+
+
+    <div class="col-md-8">
+        <router-outlet></router-outlet>
+    </div>
+
+</div>

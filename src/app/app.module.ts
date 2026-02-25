@@ -25,6 +25,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ProductDetailsComponent } from './component/product-dashboard/product-details/product-details.component';
+import { ProductFormComponent } from './component/product-dashboard/product-form/product-form.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +41,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     PageNotFoundComponent,
     UsersFormComponent,
     UsersDetailsComponent,
+    ProductDetailsComponent,
+    ProductFormComponent,
   ],
   imports: [
     BrowserModule,

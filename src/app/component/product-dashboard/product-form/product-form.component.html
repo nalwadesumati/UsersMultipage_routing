@@ -1,0 +1,51 @@
+<div class="card">
+    <div class="card-body">
+        <h1 class="font-weight-bold mb-3">{{isInEditMode ? 'Update Product' : 'Add Product'}}</h1>
+
+
+        <form [formGroup]="productForm" (ngSubmit)="onProductAdd()">
+
+
+            <div class="form-group">
+                <label for="pname">Product Name</label>
+                <input type="text" class="form-control" formControlName="pname" id="pname"
+                    placeholder="Enter pname here">
+            </div>
+
+            <div class="form-group">
+                <label for="pstatus">Product Status</label>
+                <select type="text" class="form-control" formControlName="pstatus" id="pstatus">
+                    <option value="In-progress">In-progress</option>
+                    <option value="Available">Available</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Out of Stock">Out of Stock</option>
+                    <option value="Limited">Limited</option>
+
+
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="imgUrl">Product Image URL</label>
+                <input type="text" class="form-control" formControlName="imgUrl" id="imgUrl"
+                    placeholder="Enter image URL">
+            </div>
+            <div class="form-group">
+                <label for="canReturn">Product CanReturn</label>
+                <select type="text" class="form-control" formControlName="canReturn" id="canReturn">
+                    <option [ngValue]="1">Yes</option>
+                    <option [ngValue]="0">No</option>
+
+
+
+                </select>
+            </div>
+
+            <button *ngIf="!isInEditMode" mat-raised-button color="primary">Add Product</button>
+            <button (click)="onProductUpdate()" *ngIf="isInEditMode" mat-raised-button color="accent"
+                type="button">Update Product</button>
+
+        </form>
+
+    </div>
+</div>
