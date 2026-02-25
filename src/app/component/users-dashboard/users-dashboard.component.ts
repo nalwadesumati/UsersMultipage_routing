@@ -24,10 +24,11 @@ export class UsersDashboardComponent implements OnInit {
     this._userService.featchUsers().subscribe({
       next: (data) => {
         this.usersArr = data;
-        this._snackBar.success('Users loaded successfully');
+        // this._snackBar.success('Users loaded successfully');
       },
-      error: () => {
-        this._snackBar.error('Failed to load users');
+      error: (err) => {
+        // this._snackBar.error('Failed to load users');
+        console.log(err);
       },
     });
   }

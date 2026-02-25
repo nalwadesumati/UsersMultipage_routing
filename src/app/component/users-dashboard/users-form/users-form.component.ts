@@ -116,15 +116,10 @@ export class UsersFormComponent implements OnInit {
   createUserForm() {
     this.userForm = new FormGroup({
       userName: new FormControl(null, Validators.required),
-      userId: new FormControl(null, Validators.required),
       userRole: new FormControl('Candidate', Validators.required),
       profileDescription: new FormControl(null, Validators.required),
-      profileImage: new FormControl(null, [
-        Validators.required,
-        Validators.pattern(/(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp))/i),
-      ]),
-
-      experienceYears: new FormControl(),
+      profileImage: new FormControl(null, [Validators.required]),
+      experienceYears: new FormControl(null, Validators.required),
       isActive: new FormControl(true),
 
       address: new FormGroup({
@@ -134,7 +129,6 @@ export class UsersFormComponent implements OnInit {
           city: new FormControl(null, Validators.required),
           zipcode: new FormControl(null, Validators.required),
         }),
-
         permanent: new FormGroup({
           country: new FormControl(null, Validators.required),
           state: new FormControl(null, Validators.required),
@@ -144,12 +138,9 @@ export class UsersFormComponent implements OnInit {
             Validators.pattern(/^[0-9]{5,6}$/),
           ]),
         }),
-
-        isAddSame: new FormControl(
-          { value: false, disabled: true },
-          Validators.required,
-        ),
+        isAddSame: new FormControl({ value: false, disabled: true }),
       }),
+
       skills: new FormArray([]),
     });
   }
@@ -184,26 +175,26 @@ export class UsersFormComponent implements OnInit {
     return this.userForm.controls;
   }
   onUserAdd() {
-    if (this.userForm.valid) {
-      const formData = new FormData();
-      formData.append('profileImage', this.selectedFile);
+    // console.log('FORM STATUS:', this.userForm.status);
+    // console.log('FORM ERRORS:', this.userForm.errors);
+    // console.log('FULL FORM:', this.userForm);
 
-      console.log(formData);
-
-      console.log('userform', this.userForm.value);
-
-      let user: Iusers = this.userForm.getRawValue();
-
-      this._userService.createUser(user).subscribe({
-        next: (data) => {
-          console.log(data);
-          this._router.navigate(['users']);
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
+    if (this.userForm.invalid) {
+      this.userForm.markAllAsTouched();
+      return;
     }
+
+    let user: Iusers = this.userForm.getRawValue();
+
+    this._userService.createUser(user).subscribe({
+      next: (data) => {
+        this._snackBar.success('User Added Successfully ✅!!!!');
+        this._router.navigate(['users']);
+      },
+      error: (err) => {
+        this._snackBar.error('Failed to Add User ❌');
+      },
+    });
   }
 
   // onProfileUpdate(event: any) {
@@ -239,11 +230,10 @@ export class UsersFormComponent implements OnInit {
 
       this._userService.updateUser(updatedObj).subscribe({
         next: () => {
-          console.log('Update Successful');
-          this._router.navigate(['users']);
           this._snackBar.success(
             `The User Id ${this.userId} updated successfully`,
           );
+          this._router.navigate(['users']);
         },
         error: () => {
           this._snackBar.error(`The User Id ${this.userId} failed to update`);
