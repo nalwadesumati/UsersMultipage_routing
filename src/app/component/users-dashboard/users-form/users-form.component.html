@@ -1,21 +1,13 @@
 <div class="card">
     <div class="card-body">
         <h2>{{isInEditMode ? 'Update User':'Add User'}}</h2>
-        <form [formGroup]="userForm" (ngSubmit)="onUserAdd()">
+        <form [formGroup]="userForm" (ngSubmit)="onUserAdd()" *ngIf="userForm">
             <div class="form-group">
                 <label for="userName">UserName</label>
                 <input type="text" class="form-control" formControlName="userName">
                 <strong *ngIf="f['userName'].touched && f['userName'].errors?.['required']" class="text-danger">UserName
                     is a required fild</strong>
             </div>
-
-            <!-- <div class="form-group">
-                <label for="userId">userId</label>
-                <input type="text" class="form-control" formControlName="userId">
-                <strong *ngIf="f['userId'].touched && f['userId'].errors?.['required']" class="text-danger">userId
-                    is a required fild</strong>
-            </div> -->
-
             <div class="form-group">
                 <label for="userId">UserRole</label>
                 <select type="text" class="form-control" formControlName="userRole">

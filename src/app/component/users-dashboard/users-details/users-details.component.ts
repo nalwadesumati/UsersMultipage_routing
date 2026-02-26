@@ -5,7 +5,7 @@ import { Iusers } from 'src/app/models/users';
 import { UsersService } from 'src/app/services/users.service';
 import { GetConfirmComponent } from '../../get-confirm/get-confirm.component';
 import { SnackbarService } from 'src/app/services/snackbar.service';
-import { filter, switchMap } from 'rxjs';
+import { filter, pipe, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-users-details',
@@ -50,24 +50,7 @@ export class UsersDetailsComponent implements OnInit {
     let matRef = this._matDialog
       .open(GetConfirmComponent, matConfig)
       .afterClosed()
-      // .subscribe((flag) => {
-      //   if (flag) {
-      //     this._userService.removeUser(this.userId).subscribe({
-      //       next: (data) => {
-      //         console.log(data);
-      //         this._snackBar.success(
-      //           `The User is Removed Successfully with id ${this.userId}`,
-      //         );
-      //         this._router.navigate(['users']);
-      //       },
-      //       error: (err) => {
-      //         this._snackBar.error(
-      //           `The User is failed to removed  with id ${this.userId}`,
-      //         );
-      //       },
-      //     });
-      //   }
-      // });
+
       .pipe(
         filter((flag) => flag === true),
         switchMap(() => {

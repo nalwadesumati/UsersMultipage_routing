@@ -53,6 +53,10 @@ export class UsersFormComponent implements OnInit {
     this.handleAddressLogic();
   }
 
+  get skillsArr() {
+    return this.userForm.get('skills') as FormArray;
+  }
+
   patchUserInfo() {
     //get userid form params
     this.userId = this._routes.snapshot.paramMap.get('userId')!;
@@ -66,7 +70,6 @@ export class UsersFormComponent implements OnInit {
             ...userInfo,
             skills: [],
           });
-          // this.setSkills(userInfo.skills);
 
           this._formUtility.patchFormArr(userInfo.skills, this.skillsArr);
           this.checkAddressSame();
@@ -88,12 +91,10 @@ export class UsersFormComponent implements OnInit {
     const current = currentGroup.value;
     const permanent = permanentGroup.value;
 
-    // Enable checkbox if current is valid
     if (currentGroup.valid) {
       isAddSameControl.enable({ emitEvent: false });
     }
 
-    // Proper comparison
     const isSame = JSON.stringify(current) === JSON.stringify(permanent);
 
     if (isSame && currentGroup.valid) {
@@ -102,9 +103,6 @@ export class UsersFormComponent implements OnInit {
     }
   }
   setSkills(skills: Array<string>) {
-    //skills Array iterate
-    //we will get skillvalue
-    ///crete form control and push in skillsArr
     this.skillsArr.clear();
     skills.forEach((skill) => {
       console.log(skill);
@@ -118,7 +116,7 @@ export class UsersFormComponent implements OnInit {
       userName: new FormControl(null, Validators.required),
       userRole: new FormControl('Candidate', Validators.required),
       profileDescription: new FormControl(null, Validators.required),
-      profileImage: new FormControl(null, [Validators.required]),
+      profileImage: new FormControl(null),
       experienceYears: new FormControl(null, Validators.required),
       isActive: new FormControl(true),
 
@@ -175,9 +173,9 @@ export class UsersFormComponent implements OnInit {
     return this.userForm.controls;
   }
   onUserAdd() {
-    // console.log('FORM STATUS:', this.userForm.status);
-    // console.log('FORM ERRORS:', this.userForm.errors);
-    // console.log('FULL FORM:', this.userForm);
+    console.log('FORM STATUS:', this.userForm.status);
+    console.log('FORM ERRORS:', this.userForm.errors);
+    console.log('FULL FORM:', this.userForm);
 
     if (this.userForm.invalid) {
       this.userForm.markAllAsTouched();
@@ -197,20 +195,17 @@ export class UsersFormComponent implements OnInit {
     });
   }
 
-  // onProfileUpdate(event: any) {
-  //   const file = event?.target?.files?.[0];
+  onProfileUpdate(event: any) {
+    const file = event?.target?.files?.[0];
 
-  //   if (!file) return;
+    if (!file) return;
 
-  //   this.selectedFile = file;
+    this.selectedFile = file;
 
-  //   // Update form control value
-  //   this.userForm.get('profileImage')?.setValue(file);
-  //   this.userForm.get('profileImage')?.markAsTouched();
-  // }
-  get skillsArr() {
-    return this.userForm.get('skills') as FormArray;
+    this.userForm.get('profileImage')?.setValue(file);
+    this.userForm.get('profileImage')?.markAsTouched();
   }
+
   addSkill() {
     let skillControl = new FormControl(null, [Validators.required]);
     this.skillsArr.push(skillControl);

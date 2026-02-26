@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { NgIfContext } from '@angular/common';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Iusers } from 'src/app/models/users';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 // import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -11,6 +12,7 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class UsersDashboardComponent implements OnInit {
   usersArr: Array<Iusers> = [];
+  noUsers!: TemplateRef<NgIfContext<boolean>> | null;
   constructor(
     private _userService: UsersService,
     private _snackBar: SnackbarService,
