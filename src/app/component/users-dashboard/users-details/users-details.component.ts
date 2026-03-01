@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Iusers } from 'src/app/models/users';
 import { UsersService } from 'src/app/services/users.service';
 import { GetConfirmComponent } from '../../get-confirm/get-confirm.component';
@@ -29,16 +29,18 @@ export class UsersDetailsComponent implements OnInit {
   }
 
   getUserDetails() {
-    this.userId = this._routes.snapshot.paramMap.get('userId')!;
-    // this.userId = this._routes.snapshot.params.get('userId')!;
-
-    this._userService.fetchUserById(this.userId).subscribe({
-      next: (data) => {
-        this.userObj = data;
-      },
-      error: (err) => {
-        console.log(err);
-      },
+    this._routes.paramMap.subscribe((res) => {
+      this.userId = res.get('userId')!;
+      if (this.userId) {
+        this._userService.fetchUserById(this.userId).subscribe({
+          next: (data) => {
+            this.userObj = data;
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+      }
     });
   }
 
@@ -62,6 +64,7 @@ export class UsersDetailsComponent implements OnInit {
           this._snackBar.success(
             `The User is Removed Successfully with id ${this.userId}`,
           );
+          this._userService.setFirstUserSub$.next(true);
           this._router.navigate(['users']);
         },
         error: (err) => {

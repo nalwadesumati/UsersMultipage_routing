@@ -27,6 +27,7 @@ export class UsersFormComponent implements OnInit {
   userId!: string;
   isInEditMode: boolean = false;
   editUserObj!: Iusers;
+  isUserCandidate: boolean = false;
   experienceOptions = [
     '1 to 3 years',
     '3 to 5 years',
@@ -45,10 +46,11 @@ export class UsersFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.createUserForm();
+    this.userId = this._routes.snapshot.paramMap.get('userId')!;
     if (!this.userId) {
       this.addSkill();
     }
-    this.userId = this._routes.snapshot.paramMap.get('userId')!;
+
     this.patchUserInfo();
     this.handleAddressLogic();
   }
@@ -73,6 +75,13 @@ export class UsersFormComponent implements OnInit {
 
           this._formUtility.patchFormArr(userInfo.skills, this.skillsArr);
           this.checkAddressSame();
+          let userRole = this._routes.snapshot.queryParamMap.get('ur');
+          if (userRole === 'Candidate') {
+            this.isUserCandidate = true;
+
+            this.userForm.get('userRole')?.disable();
+            this.userForm.get('experienceYears')?.disable();
+          }
         },
         error: (err) => {
           console.log(err);
@@ -173,10 +182,6 @@ export class UsersFormComponent implements OnInit {
     return this.userForm.controls;
   }
   onUserAdd() {
-    console.log('FORM STATUS:', this.userForm.status);
-    console.log('FORM ERRORS:', this.userForm.errors);
-    console.log('FULL FORM:', this.userForm);
-
     if (this.userForm.invalid) {
       this.userForm.markAllAsTouched();
       return;
@@ -187,7 +192,11 @@ export class UsersFormComponent implements OnInit {
     this._userService.createUser(user).subscribe({
       next: (data) => {
         this._snackBar.success('User Added Successfully ✅!!!!');
-        this._router.navigate(['users']);
+        this._router.navigate(['users', data.userId], {
+          queryParams: {
+            ur: data.userRole,
+          },
+        });
       },
       error: (err) => {
         this._snackBar.error('Failed to Add User ❌');
@@ -228,7 +237,11 @@ export class UsersFormComponent implements OnInit {
           this._snackBar.success(
             `The User Id ${this.userId} updated successfully`,
           );
-          this._router.navigate(['users']);
+          this._router.navigate(['users', this.userId], {
+            queryParams: {
+              ur: updatedObj.userRole,
+            },
+          });
         },
         error: () => {
           this._snackBar.error(`The User Id ${this.userId} failed to update`);

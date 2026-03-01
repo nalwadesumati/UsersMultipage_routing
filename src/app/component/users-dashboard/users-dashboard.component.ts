@@ -1,5 +1,6 @@
 import { NgIfContext } from '@angular/common';
 import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { Iusers } from 'src/app/models/users';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 // import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -16,16 +17,37 @@ export class UsersDashboardComponent implements OnInit {
   constructor(
     private _userService: UsersService,
     private _snackBar: SnackbarService,
+    private _router: Router,
   ) {}
 
   ngOnInit(): void {
-    this.getUsers();
+    this.loadUsers();
+    this.setFirstUserActive();
   }
 
-  getUsers() {
+  setFirstUserActive() {
+    this._userService.setFirstUserSub$.subscribe((flag) => {
+      if (flag) {
+        setTimeout(() => {
+          this._router.navigate(['users', this.usersArr[0].userId], {
+            queryParams: {
+              ur: this.usersArr[0].userRole,
+            },
+          });
+        }, 0);
+      }
+    });
+  }
+
+  loadUsers() {
     this._userService.featchUsers().subscribe({
       next: (data) => {
         this.usersArr = data;
+        this._router.navigate(['users', this.usersArr[0].userId], {
+          queryParams: {
+            ur: this.usersArr[0].userRole,
+          },
+        });
         // this._snackBar.success('Users loaded successfully');
       },
       error: (err) => {

@@ -30,44 +30,50 @@ const appRoutes: Routes = [
   {
     path: 'users',
     component: UsersDashboardComponent,
+    children: [
+      {
+        path: 'adduser',
+        component: UsersFormComponent,
+      },
+      {
+        path: ':userId',
+        component: UsersDetailsComponent,
+      },
+      {
+        path: ':userId/edit',
+        component: UsersFormComponent,
+      },
+    ],
   },
-  {
-    path: 'users/adduser',
-    component: UsersFormComponent,
-  },
-  {
-    path: 'users/:userId',
-    component: UsersDetailsComponent,
-  },
-  {
-    path: 'users/:userId/edit',
-    component: UsersFormComponent,
-  },
+
   {
     path: 'products',
     component: ProductDashboardComponent,
+    children: [
+      {
+        path: 'addProduct',
+        component: ProductFormComponent,
+      },
+      {
+        path: ':pid',
+        component: ProductDetailsComponent,
+      },
+      {
+        path: ':pid/edit',
+        component: ProductFormComponent,
+      },
+    ],
   },
-  {
-    path: 'products/addProduct',
-    component: ProductFormComponent,
-  },
-  {
-    path: 'products/:pid',
-    component: ProductDetailsComponent,
-  },
-  {
-    path: 'products/:pid/edit',
-    component: ProductFormComponent,
-  },
+
   {
     path: 'fairs',
     component: FairsDashboardComponent,
   },
 
-  {
-    path: '**',
-    component: PageNotFoundComponent,
-  },
+  // {
+  //   path: '**',
+  //   component: PageNotFoundComponent,
+  // },
 ];
 
 @NgModule({

@@ -24,48 +24,58 @@ export class ProductDetailsComponent implements OnInit {
     private _router: Router,
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getProductByRoute();
+  }
 
-  //   getProductByRoute(): void {
-  //     this._routes.params
-  //       .pipe(
-  //         switchMap((params: Params) => {
-  //           this.productId = params['pid'];
-  //           return this._productService.fetchProductById(this.productId);
-  //         }),
-  //       )
-  //       .subscribe({
-  //         next: (data: Iproduct) => {
-  //           this.productObj = data;
-  //         },
-  //         error: (err) => {
-  //           console.log(err);
-  //         },
-  //       });
-  //   }
+  getProductByRoute(): void {
+    this._routes.params
+      .pipe(
+        switchMap((params: Params) => {
+          this.productId = params['pid'];
+          return this._productService.fetchProductById(this.productId);
+        }),
+      )
+      .subscribe({
+        next: (data: Iproduct) => {
+          this.productObj = data;
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+  }
 
-  //   onRemoveProduct() {
-  //     let matConfig = new MatDialogConfig();
-  //     matConfig.data = `Are you sure you want to remove product with id ${this.productId}`;
+  onRemoveProduct() {
+    let matConfig = new MatDialogConfig();
+    matConfig.data = `Are you sure you want to remove product with id ${this.productId}`;
 
-  //     matConfig.disableClose = true;
-  //     this._matDialog
-  //       .open(GetConfirmComponent, matConfig)
-  //       .afterClosed()
-  //       .pipe(
-  //         filter((res) => res),
-  //         switchMap(() => this._productService.removeProduct(this.productId)),
-  //       )
-  //       .subscribe({
-  //         next: (data) => {
-  //           this._snackBar.success(
-  //             `The product with id ${this.productId} removed Successfully!!`,
-  //           );
-  //           this._router.navigate(['products']);
-  //         },
-  //         error: (err) => {
-  //           this._snackBar.error(`Failed to remove product`);
-  //         },
-  //       });
-  //   }
+    matConfig.disableClose = true;
+    this._matDialog
+      .open(GetConfirmComponent, matConfig)
+      .afterClosed()
+      .pipe(
+        filter((res) => res),
+        switchMap(() => this._productService.removeProduct(this.productId)),
+      )
+      .subscribe({
+        next: (data) => {
+          this._snackBar.success(
+            `The product with id ${this.productId} removed Successfully!!`,
+          );
+          this._productService.setFirstProductSub$.next(true);
+          this._router.navigate(['products']);
+        },
+        error: (err) => {
+          this._snackBar.error(`Failed to remove product`);
+        },
+      });
+  }
+
+  onProductEdit() {
+    this._router.navigate(['edit'], {
+      relativeTo: this._routes,
+      queryParamsHandling: 'preserve',
+    });
+  }
 }

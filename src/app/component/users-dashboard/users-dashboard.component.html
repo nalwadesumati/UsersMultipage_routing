@@ -4,8 +4,8 @@
 
         <ng-container *ngIf=" usersArr.length > 0; else noUsers">
             <ul class="list-group">
-                <li class="list-group-item" *ngFor="let users of usersArr" role="button"
-                    [routerLink]="['/users', users.userId]">
+                <li class="list-group-item" *ngFor="let users of usersArr" role="button" routerLinkActive="active"
+                    [routerLink]="['/users', users.userId]" [queryParams]="{ur:users.userRole}">
                     {{users.userName}} - {{users.userId}}
 
                     <span class="badge float-right" [ngClass]="{
@@ -22,5 +22,7 @@
         </ng-container>
     </div>
 
-    <div class="col-md-8"></div>
+    <div class="col-md-8">
+        <router-outlet></router-outlet>
+    </div>
 </div>

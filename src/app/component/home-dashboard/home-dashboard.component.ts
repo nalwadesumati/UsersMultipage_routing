@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./home-dashboard.component.scss'],
 })
 export class HomeDashboardComponent implements OnInit {
+  isProductPage: boolean = false;
   constructor(
     private _router: Router,
     private _routes: ActivatedRoute,
